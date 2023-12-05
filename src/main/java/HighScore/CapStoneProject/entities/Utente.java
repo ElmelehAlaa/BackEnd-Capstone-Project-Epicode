@@ -3,7 +3,6 @@ package HighScore.CapStoneProject.entities;
 
 import HighScore.CapStoneProject.Enum.Periferica;
 import HighScore.CapStoneProject.Enum.Role;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -17,14 +16,13 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 @Getter
 @Setter
 @Entity
 @Table(name = "users")
 @NoArgsConstructor
-@JsonIgnoreProperties({"password","authorities","enabled","crediantialsNonExpired","accountNonExpired","accountNonLocked"})
+@JsonIgnoreProperties({"password", "authorities", "enabled", "crediantialsNonExpired", "accountNonExpired", "accountNonLocked"})
 public class Utente implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,6 +39,7 @@ public class Utente implements UserDetails {
     private Role role;
     @CreationTimestamp
     private Date createdAt;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(this.role.name()));
@@ -50,10 +49,11 @@ public class Utente implements UserDetails {
     public String getPassword() {
         return null;
     }
+    
 
     @Override
     public String getUsername() {
-        return null;
+        return username;
     }
 
     @Override

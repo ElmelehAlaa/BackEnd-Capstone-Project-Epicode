@@ -1,5 +1,6 @@
 package HighScore.CapStoneProject.services;
 
+import HighScore.CapStoneProject.Enum.Periferica;
 import HighScore.CapStoneProject.Enum.Role;
 import HighScore.CapStoneProject.entities.Utente;
 import HighScore.CapStoneProject.exceptions.BadRequestException;
@@ -41,12 +42,13 @@ public class AuthService {
             throw new BadRequestException("L'email" + user.getEmail() + "è già utilizzata!");
         });
         Utente newUser = new Utente();
-        newUser.setNome(body.name());
+        newUser.setNome(body.nome());
         newUser.setEmail(body.email());
-        newUser.setCognome(body.surname());
+        newUser.setCognome(body.cognome());
         newUser.setUsername(body.username());
         newUser.setPassword(bcrypt.encode(body.password()));
         newUser.setRole(Role.USER);
+        newUser.setInput(Periferica.valueOf(body.input()));
         return userRepository.save(newUser);
     }
 

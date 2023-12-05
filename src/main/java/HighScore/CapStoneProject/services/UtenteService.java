@@ -35,6 +35,7 @@ public class UtenteService {
         found.setNome(body.getNome());
         found.setEmail(body.getEmail());
         found.setUsername(body.getUsername());
+        found.setInput(body.getInput());
         return userRepository.save(found);
     }
 
