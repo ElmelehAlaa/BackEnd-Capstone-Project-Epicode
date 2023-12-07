@@ -1,5 +1,6 @@
 package HighScore.CapStoneProject.controllers;
 
+import HighScore.CapStoneProject.Enum.Role;
 import HighScore.CapStoneProject.entities.Utente;
 import HighScore.CapStoneProject.exceptions.BadRequestException;
 import HighScore.CapStoneProject.services.UtenteService;
@@ -10,6 +11,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/users")
@@ -45,4 +48,17 @@ public class UserController {
     public void findByIdAndDelete(@PathVariable long id) {
         utenteService.findByIdAndDelete(id);
     }
+
+    @GetMapping("/members")
+    @PreAuthorize("hasAuthority('USER')")
+    public List<Utente> findByRole(@RequestParam Role role) {
+        return utenteService.findByRole(role);
+    }
+
+    @GetMapping("/search")
+    public Utente findByEmail(@RequestParam String email) {
+        return utenteService.findByEmail(email);
+    }
+
+
 }

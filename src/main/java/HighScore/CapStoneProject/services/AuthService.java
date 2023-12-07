@@ -39,7 +39,7 @@ public class AuthService {
 
     public Utente save(NewUserDTO body) throws IOException {
         userRepository.findByEmail(body.email()).ifPresent(user -> {
-            throw new BadRequestException("L'email" + user.getEmail() + "è già utilizzata!");
+            throw new BadRequestException("L'email " + user.getEmail() + " è già utilizzata!");
         });
         Utente newUser = new Utente();
         newUser.setNome(body.nome());
@@ -49,6 +49,7 @@ public class AuthService {
         newUser.setPassword(bcrypt.encode(body.password()));
         newUser.setRole(Role.USER);
         newUser.setInput(Periferica.valueOf(body.input()));
+        newUser.setUrlAvatar("http://ui-avatars.com/api/?name=" + body.nome() + "+" + body.cognome());
         return userRepository.save(newUser);
     }
 

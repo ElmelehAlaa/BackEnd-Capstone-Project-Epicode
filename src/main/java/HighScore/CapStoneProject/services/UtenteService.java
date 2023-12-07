@@ -1,5 +1,6 @@
 package HighScore.CapStoneProject.services;
 
+import HighScore.CapStoneProject.Enum.Role;
 import HighScore.CapStoneProject.entities.Utente;
 import HighScore.CapStoneProject.exceptions.NotFoundException;
 import HighScore.CapStoneProject.repositories.UserRepository;
@@ -9,6 +10,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class UtenteService {
@@ -42,5 +45,9 @@ public class UtenteService {
     public void findByIdAndDelete(long id) throws NotFoundException {
         Utente found = this.findById(id);
         userRepository.delete(found);
+    }
+
+    public List<Utente> findByRole(Role role) {
+        return userRepository.findByRole(role);
     }
 }
