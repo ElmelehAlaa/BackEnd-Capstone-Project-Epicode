@@ -11,7 +11,9 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -33,7 +35,7 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('USER')")
     public Utente findByIdAndUpdate(@PathVariable long id, @RequestBody @Validated Utente body, BindingResult validation) {
         if (validation.hasErrors()) {
             throw new BadRequestException(validation.getAllErrors());
@@ -50,7 +52,6 @@ public class UserController {
     }
 
     @GetMapping("/members")
-    @PreAuthorize("hasAuthority('USER')")
     public List<Utente> findByRole(@RequestParam Role role) {
         return utenteService.findByRole(role);
     }
@@ -58,6 +59,12 @@ public class UserController {
     @GetMapping("/search")
     public Utente findByEmail(@RequestParam String email) {
         return utenteService.findByEmail(email);
+    }
+
+    @PatchMapping("/{id}/image")
+    @PreAuthorize("hasAnyAuthority('USER' ,'PLAYER')")
+    public Utente uploadImage(@RequestParam("image") MultipartFile file, @PathVariable long id) throws IOException {
+        return utenteService.uploadPicture(file, id);
     }
 
 
