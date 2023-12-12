@@ -41,12 +41,13 @@ public class PrenotazioniService {
         return prenotazioniRepository.findAllByPrenotazioneStato(statoPrenotazione);
     }
 
-    public void PrenotaServizio(long servizioId, Utente utente) throws NotFoundException {
+    public Prenotazioni PrenotaServizio(long servizioId, Utente utente) throws NotFoundException {
         ServiziSito serviziSitoFound = serviziSitoService.findServizioById(servizioId);
         Prenotazioni prenotazione = new Prenotazioni();
         prenotazione.setUtente(utente);
         prenotazione.setServizio(serviziSitoFound);
-        prenotazioniRepository.save(prenotazione);
+        prenotazione.setPrenotazioneStato(StatoPrenotazione.IN_ATTESA_DI_CONFERMA);
+        return prenotazioniRepository.save(prenotazione);
     }
 
 }

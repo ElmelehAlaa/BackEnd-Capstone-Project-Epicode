@@ -26,7 +26,7 @@ public class PrenotazioniController {
         return prenotazioniService.getPrenotazioni(page, size, orderBy);
     }
 
-    @GetMapping("/prenotazioni/{userId}")
+    @GetMapping("/{userId}")
     public List<Prenotazioni> getUserPrenotazioniByUserId(@PathVariable long userId) {
         return prenotazioniService.findAllByUserId(userId);
     }
@@ -37,11 +37,11 @@ public class PrenotazioniController {
     }
 
     @PostMapping("/{ServizioId}/prenota")
-    @ResponseStatus(HttpStatus.ACCEPTED)
-    public void prenotaPosto(
-            @PathVariable long id,
+    @ResponseStatus(HttpStatus.CREATED)
+    public Prenotazioni prenotaPosto(
+            @PathVariable("ServizioId") long id,
             Authentication authentication) {
         Utente user = (Utente) authentication.getPrincipal();
-        prenotazioniService.PrenotaServizio(id, user);
+        return prenotazioniService.PrenotaServizio(id, user);
     }
 }

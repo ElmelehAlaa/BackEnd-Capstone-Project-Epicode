@@ -21,11 +21,12 @@ public class Prenotazioni {
     @JoinColumn(name = "userId")
     private Utente utente;
 
+
     @ManyToOne
     @JoinColumn(name = "servizioId")
     private ServiziSito servizio;
 
-
+    @Enumerated(EnumType.STRING)
     private StatoPrenotazione prenotazioneStato;
 
     @CreationTimestamp
