@@ -5,7 +5,9 @@ import HighScore.CapStoneProject.entities.Prenotazioni;
 import HighScore.CapStoneProject.entities.ServiziSito;
 import HighScore.CapStoneProject.entities.Utente;
 import HighScore.CapStoneProject.exceptions.NotFoundException;
+import HighScore.CapStoneProject.payload.PrenotazioniDTO;
 import HighScore.CapStoneProject.repositories.PrenotazioniRepository;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -48,6 +50,16 @@ public class PrenotazioniService {
         prenotazione.setServizio(serviziSitoFound);
         prenotazione.setPrenotazioneStato(StatoPrenotazione.IN_ATTESA_DI_CONFERMA);
         return prenotazioniRepository.save(prenotazione);
+    }
+
+    public Prenotazioni findById(long id) throws NotFoundException {
+        return prenotazioniRepository.findById(id).orElseThrow(() -> new NotFoundException(id));
+    }
+
+    public Prenotazioni findByIdAndUpdate(long id, @Valid PrenotazioniDTO body) throws NotFoundException {
+        Prenotazioni found = this.findById(id);
+        found.setPrenotazioneStato(StatoPrenotazione.valueOf(body.prenotazioneStato().name()));
+        return prenotazioniRepository.save(found);
     }
 
 }

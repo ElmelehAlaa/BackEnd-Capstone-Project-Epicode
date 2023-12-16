@@ -1,5 +1,6 @@
 package HighScore.CapStoneProject.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -21,7 +22,7 @@ public class ListService {
 
     @CreationTimestamp
     private String createdAt;
-
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "servizi_id")
     private ServiziSito serviziSito;

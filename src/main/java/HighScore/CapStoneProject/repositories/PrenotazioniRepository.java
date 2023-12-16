@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface PrenotazioniRepository extends JpaRepository<Prenotazioni, Long> {
@@ -14,5 +15,7 @@ public interface PrenotazioniRepository extends JpaRepository<Prenotazioni, Long
     List<Prenotazioni> findAllByServizioId(Long servizioId);
 
     List<Prenotazioni> findAllByPrenotazioneStato(StatoPrenotazione statoPrenotazione);
+
+    Optional<Prenotazioni> findById(long id);
 
 }
